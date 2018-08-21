@@ -70,6 +70,8 @@ class Command(BaseCommand):
                             consumption = ConsumptionEntry(user=user, datetime=reading_date, consumption=reading_value)
                             consumption.save()
 
+                    user.cache_update()
+
             except ValueError:
                 print("CSV file for user %d is malformed. Roll-backed changes." % user_id, file=sys.stderr)
 
