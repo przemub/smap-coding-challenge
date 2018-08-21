@@ -6,6 +6,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.db import models
 from django.db.models.functions import TruncDay
 from django.core.serializers.json import DjangoJSONEncoder
+from django.views.decorators.cache import cache_page
 
 from consumption.models import MeterUser, ConsumptionEntry
 
@@ -21,6 +22,7 @@ def summary(request):
     return render(request, 'consumption/summary.html', context)
 
 
+@cache_page(60*60*24*365*100)
 def detail(request):
     requested_id = request.GET.get("id", "")
     if requested_id == "Sum":
