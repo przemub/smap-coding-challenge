@@ -1,7 +1,51 @@
 {% extends 'consumption/layout.html' %}
 
+{% block extrascripts %}
+    <script src="https://cdn.jsdelivr.net/bootstrap.listgroup/1.1.2/listgroup.min.js"></script>
+    <script src="https://cdnjs.com/libraries/Chart.js"></script>
+{% endblock extrascripts %}
+
+{% block extrastyle %}
+<style type="text/css">
+    body {
+        padding-top: 70px;
+    }
+
+    .list-group {
+        height: 60vh;
+        margin-bottom: 10px;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #chart-card {
+        height: 60vh;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
-<h1>{{message}}</h1>
+    <div class="container">
+        <div class="row">
+        <h2>Results</h2>
+        </div>
+
+        <div class="row">
+        <div class="list-group col-3" id="table-select" data-toggle="items">
+            <button type="button" class="list-group-item list-group-item-action active">Sum</button>
+            <button type="button" class="list-group-item list-group-item-action">Average</button>
+            {% for user in users %}
+                <button type="button" class="list-group-item list-group-item-action">{{ user.id }}</button>
+            {% endfor %}
+        </div>
+        <div class="col-md-9">
+            <div class="card" id="chart-card">
+            <div class="card-body">
+                <canvas id="chart-canvas"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
 
 {% endblock %}
