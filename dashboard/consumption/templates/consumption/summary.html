@@ -2,7 +2,74 @@
 
 {% block extrascripts %}
     <script src="https://cdn.jsdelivr.net/bootstrap.listgroup/1.1.2/listgroup.min.js"></script>
-    <script src="https://cdnjs.com/libraries/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+    <script type="application/javascript">
+        var ctx = document.getElementById("chart-canvas").getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: []
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                    }]
+                }
+            }
+        });
+
+        var add_chart = function (obj) {
+            $.ajax({
+                url: "http://localhost:8000/detail?id=" + obj,
+                method: 'GET',
+                dataType: 'json',
+                success: function (d) {
+                    if (!document.getElementById('button-' + obj).classList.contains("active"))
+                        return;
+
+                    if (chart.data.labels.length == 0)
+                        chart.data.labels.push(...d.labels);
+                    chart.data.datasets.push({
+                        label: obj,
+                        data: d.data,
+                        borderWidth: 1,
+                        backgroundColor: '#'+(Math.random()*0xFFFFFF<<0).toString(16), // evil dark magic
+                        fill: false
+                    });
+
+                    chart.update();
+                }
+            });
+        };
+
+        $(document).ready(function() {
+            add_chart('Average');
+        });
+
+        function on_click(button) {
+            if (!document.getElementById('button-' + button).classList.contains("active")) {
+                add_chart(button);
+            }
+            else {
+                for (var i = 0; i < chart.data.datasets.length; i++)
+                    if (chart.data.datasets[i].label == button) {
+                        chart.data.datasets.splice(i, 1);
+                        chart.update();
+                        break;
+                    }
+            }
+        }
+    </script>
 {% endblock extrascripts %}
 
 {% block extrastyle %}
@@ -33,10 +100,13 @@
 
         <div class="row">
         <div class="list-group col-3" id="table-select" data-toggle="items">
-            <button type="button" class="list-group-item list-group-item-action active">Sum</button>
-            <button type="button" class="list-group-item list-group-item-action">Average</button>
+            <button type="button" class="list-group-item list-group-item-action active"
+                    onclick="on_click('Average');" id="button-Average">Average</button>
+            <button type="button" class="list-group-item list-group-item-action"
+                    onclick="on_click('Sum');" id="button-Sum">Sum</button>
             {% for user in users %}
-                <button type="button" class="list-group-item list-group-item-action">{{ user.id }}</button>
+                <button type="button" class="list-group-item list-group-item-action"
+                        onclick="on_click('{{ user.id }}');" id="button-{{ user.id }}">{{ user.id }}</button>
             {% endfor %}
         </div>
         <div class="col-md-9">
