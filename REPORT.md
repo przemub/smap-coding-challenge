@@ -15,8 +15,6 @@ By Przemysław Buczkowski, 20th/21st of August 2018
     * User model named MeterUser to avoid confusion with the built-in User model
     * Consumption stored as a decimal type to ensure accuracy (up to one mWh)
         * The trade-off is lower performance which will be taken care of by caching.
-    * I decided to cache aggregate functions directly in a model to avoid computing
-    them in views.
 
 * Import
     * Considering the nature of this project, I opted for a simple implementation utilising

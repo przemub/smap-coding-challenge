@@ -11,15 +11,6 @@ class MeterUser(models.Model):
     area = models.CharField(max_length=16)
     tariff = models.CharField(max_length=16)
 
-    # Cache results of aggregate functions. Remember to update cache after modifying ConsumptionEntries.
-    cache_max = models.DecimalField(max_digits=30, decimal_places=3)
-    cache_avg = models.DecimalField(max_digits=30, decimal_places=3)
-
-    def cache_update(self):
-        self.cache_max = self.consumptionentry_set.aggregate(models.Max('consumption'))['consumption__max']
-        self.cache_avg = self.consumptionentry_set.aggregate(models.Avg('consumption'))['consumption__avg']
-        self.save()
-
 
 class ConsumptionEntry(models.Model):
     """A model for readings of meters."""
