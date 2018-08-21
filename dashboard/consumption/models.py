@@ -27,3 +27,6 @@ class ConsumptionEntry(models.Model):
     user = models.ForeignKey(MeterUser, on_delete=models.CASCADE)
     datetime = models.DateTimeField()
     consumption = models.DecimalField(max_digits=20, decimal_places=3)
+
+    class Meta:
+        ordering = ['user', 'datetime']
