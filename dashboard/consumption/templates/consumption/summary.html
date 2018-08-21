@@ -3,8 +3,11 @@
 {% block extrascripts %}
     <script src="https://cdn.jsdelivr.net/bootstrap.listgroup/1.1.2/listgroup.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
     <script type="application/javascript">
+        $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
         var ctx = document.getElementById("chart-canvas").getContext('2d');
         var chart = new Chart(ctx, {
             type: 'line',
@@ -29,12 +32,14 @@
         });
 
         var add_chart = function (obj) {
+            var button = document.getElementById('button-' + obj);
+
             $.ajax({
                 url: "http://localhost:8000/detail?id=" + obj,
                 method: 'GET',
                 dataType: 'json',
                 success: function (d) {
-                    if (!document.getElementById('button-' + obj).classList.contains("active"))
+                    if (!button.classList.contains("active"))
                         return;
 
                     if (chart.data.labels.length == 0)
@@ -43,7 +48,7 @@
                         label: obj,
                         data: d.data,
                         borderWidth: 1,
-                        backgroundColor: '#'+(Math.random()*0xFFFFFF<<0).toString(16), // evil dark magic
+                        backgroundColor: '#'+(Math.random()*0xFFFFFF<<0).toString(16), // evil black magic
                         fill: false
                     });
 
@@ -99,16 +104,16 @@
         </div>
 
         <div class="row">
-        <div class="list-group col-3" id="table-select" data-toggle="items">
-            <button type="button" class="list-group-item list-group-item-action active"
-                    onclick="on_click('Average');" id="button-Average">Average</button>
-            <button type="button" class="list-group-item list-group-item-action"
-                    onclick="on_click('Sum');" id="button-Sum">Sum</button>
+        <ul class="list-group col-3" id="table-select" data-toggle="items">
+            <li class="list-group-item list-group-item-action active"
+                    onclick="on_click('Average');" id="button-Average">Average</a>
+            <li class="list-group-item list-group-item-action"
+                    onclick="on_click('Sum');" id="button-Sum">Sum</li>
             {% for user in users %}
-                <button type="button" class="list-group-item list-group-item-action"
-                        onclick="on_click('{{ user.id }}');" id="button-{{ user.id }}">{{ user.id }}</button>
+                <li class="list-group-item list-group-item-action"
+                        onclick="on_click('{{ user.id }}');" id="button-{{ user.id }}">{{ user.id }}</a>
             {% endfor %}
-        </div>
+        </ul>
         <div class="col-md-9">
             <div class="card" id="chart-card">
             <div class="card-body">

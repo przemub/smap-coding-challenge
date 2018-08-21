@@ -25,4 +25,6 @@ By Przemysław Buczkowski, 20th/21st of August 2018
     And the solution seemed obvious when I wrote it. But I'm not Dutch, even though I'm tall, so how could I know… Eh, who would expect that a requirement project would give me an
     existential crisis…
 
-    
+* Views
+    * detail view was marked as optional so I changed it purpose. Hope it's okay.
+    * detail view is horribly slow and therefore it has caching turned on. In production I would precache all pages.
