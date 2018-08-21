@@ -67,5 +67,4 @@ def detail(request):
                 return float(o)
             return super(DecimalEncoder, self).default(o)
 
-    print(response)
     return JsonResponse(response, DecimalEncoder)
