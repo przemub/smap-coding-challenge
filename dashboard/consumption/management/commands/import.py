@@ -20,7 +20,10 @@ class Command(BaseCommand):
 
         # Using os.path.join to ensure portability
         try:
-            users_csv = open(os.path.join(script_directory, "..", "data", "user_data.csv"), "r")
+            if options.get('user_data', None):
+                users_csv = options['user_data']
+            else:
+                users_csv = open(os.path.join(script_directory, "..", "data", "user_data.csv"), "r")
         except FileNotFoundError:
             raise CommandError("user_data.csv not found.")
 
@@ -39,8 +42,11 @@ class Command(BaseCommand):
             print("Processing user %d." % user_id)
 
             try:
-                consumption_csv = open(os.path.join(script_directory, "..", "data", "consumption", "%d.csv" % user_id),
-                                       "r")
+                if options.get('consumption_csv', None):
+                    consumption_csv = options['consumption_csv']
+                else:
+                    consumption_csv = open(os.path.join(script_directory, "..", "data", "consumption",
+                                                        "%d.csv" % user_id), "r")
             except FileNotFoundError:
                 print("Consumption file for user %d not found. Skipping." % user_id, file=sys.stderr)
 

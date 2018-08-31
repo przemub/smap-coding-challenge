@@ -20,11 +20,18 @@ By Przemysław Buczkowski, 20th/21st of August 2018
     * Considering the nature of this project, I opted for a simple implementation utilising
     built-in csv module and Django ORM. Unfortunately it is slow. If we had to import a lot of data, it would be beneficial
     to optimise it - I would use pandas library to import CSV files directly into the database and parallelise the task.
-    * There is a mantra I heard a long time ago and it stuck with me - *If you need more than 3 levels of indentation, you’re screwed anyway, and should fix your program.*
-    Therefore this part of code seems completely off to me. But on the other hand, *There should be one-- and preferably only one --obvious way to do it.*
-    And the solution seemed obvious when I wrote it. But I'm not Dutch, even though I'm tall, so how could I know… Eh, who would expect that a requirement project would give me an
-    existential crisis…
+    * There is a mantra I heard a long time ago and it stuck with me -
+     *If you need more than 3 levels of indentation, you’re screwed anyway, and should fix your program.*
+     Therefore this part of code seems completely off to me. But on the other hand,
+     *There should be one-- and preferably only one --obvious way to do it.*
+     And the solution seemed obvious when I wrote it. But I'm not Dutch, even though I'm tall, so how could I know… Eh, who would expect that a requirement project would give me an
+     existential crisis…
 
 * Views
     * detail view was marked as optional so I changed it purpose. Hope it's okay.
     * detail view is horribly slow and therefore it has caching turned on. In production I would precache all pages.
+    
+* Tests
+    * I know that they are very lacking, but to be honest, in the past I had written tests only when regression was
+      very probable or had happened before. That's the one thing I'd require training on :)
+      
