@@ -49,6 +49,7 @@ class Command(BaseCommand):
                                                         "%d.csv" % user_id), "r")
             except FileNotFoundError:
                 print("Consumption file for user %d not found. Skipping." % user_id, file=sys.stderr)
+                continue
 
             try:
                 with transaction.atomic():
