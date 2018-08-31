@@ -20,6 +20,7 @@ By Przemysław Buczkowski, 20th/21st of August 2018
     * Considering the nature of this project, I opted for a simple implementation utilising
     built-in csv module and Django ORM. Unfortunately it is slow. If we had to import a lot of data, it would be beneficial
     to optimise it - I would use pandas library to import CSV files directly into the database and parallelise the task.
+    * Transactions are atomic.
     * There is a mantra I heard a long time ago and it stuck with me -
      *If you need more than 3 levels of indentation, you’re screwed anyway, and should fix your program.*
      Therefore this part of code seems completely off to me. But on the other hand,
